@@ -27,19 +27,6 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST }}
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: Code Coverage Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
-      with:
-        filename: initial/**/jacoco.xml
-        badge: true
-        fail_below_min: true
-        format: markdown
-        hide_branch_rate: false
-        hide_complexity: true
-        indicators: true
-        output: both
-        thresholds: '60 80'
-
     - name: Add coverage to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.3
