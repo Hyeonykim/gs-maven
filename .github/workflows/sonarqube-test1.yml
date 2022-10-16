@@ -34,4 +34,9 @@ jobs:
         paths: ${{ github.workspace }}/initial/target/site/jacoco/jacoco.xml
         token: ${{ secrets.GH_TOKEN }}
         min-coverage-overall: 0
-        min-coverage-changed-files: 0
+        min-coverage-changed-files: -1
+
+    - name: Get the Coverage info
+      run: |
+        echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+        echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
