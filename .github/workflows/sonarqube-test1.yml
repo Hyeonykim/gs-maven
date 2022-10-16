@@ -1,0 +1,48 @@
+name: PR Verification
+on:
+  # schedule:
+    # - cron: '0 * * * 1'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.11
+      uses: AdoptOpenJDK/install-jdk@v1
+      with:
+        version: '11'
+        architecture: x64
+        targets: 'JAVA_HOME'
+    - name: Build with Maven
+      run: |
+        cd initial
+        ls -R
+        mvn clean test
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: initial
+        path: initial
+
+  sonarQube:
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+    - name: Build with Maven
+      run: |
+        cd initial
+        mvn clean test sonar:sonar
+        ls -R
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST }}
