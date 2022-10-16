@@ -27,6 +27,12 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST }}
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
+    - name: SonarQube Scan2
+      uses: kitabisa/sonarqube-action@v1.2.0
+      with:
+        host: ${{ secrets.SONAR_HOST }}
+        login: ${{ secrets.SONAR_TOKEN }}
+
     - name: Add coverage to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.3
