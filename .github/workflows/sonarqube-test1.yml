@@ -18,7 +18,7 @@ jobs:
     - name: Build with Maven
       run: |
         cd initial
-        mvn clean test
+        mvn clean test jacoco:report
         ls -R
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
