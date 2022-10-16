@@ -23,28 +23,9 @@ jobs:
         cd initial
         ls -R
         mvn clean test
+        mvn sonar:sonar
     - name: Upload build artifact
       uses: actions/upload-artifact@v2
       with:
         name: initial
         path: initial
-
-  sonarQube:
-    needs: build
-    name: SonarQube
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Download build artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: initial
-        path: initial
-    - name: Check Directory
-      run: ls -R ./
-    - name: SonarQube Scanner
-      uses: ItsEcholot/sonarqube-action@v0.0.2
-      with:
-        host: ${{ secrets.SONAR_HOST }}
-        login: ${{ secrets.SONAR_TOKEN }}
-        projectBaseDir: '/github/workspace'
