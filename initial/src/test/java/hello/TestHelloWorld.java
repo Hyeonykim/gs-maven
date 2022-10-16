@@ -8,5 +8,8 @@ public class TestHelloWorld {
     @Test
     public void testExample() {
         assertEquals(1,1);
+
+		Greeter greeter = new Greeter();
+        System.out.println(greeter.sayHello());
     }
 }
