@@ -39,3 +39,12 @@ jobs:
         indicators: true
         output: both
         thresholds: '60 80'
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.3
+        with:
+          paths: ${{ github.workspace }}/initial/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GH_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
