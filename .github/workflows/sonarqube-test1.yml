@@ -55,3 +55,14 @@ jobs:
       # The possible outputs of the `quality-gate-status` variable are `PASSED`, `WARN` or `FAILED`.
     - name: "Example show SonarQube Quality Gate Status value"
       run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: 1
+        body: |
+          This is a multi-line test comment
+          - With GitHub **Markdown** :sparkles:
+          - Created by [create-or-update-comment][1]
+
+          [1]: https://github.com/peter-evans/create-or-update-comment
+        reactions: '+1'
