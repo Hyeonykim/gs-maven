@@ -12,7 +12,7 @@ jobs:
     runs-on: linux
     steps:
     - name: Setup sonarqube
-      uses: warchant/setup-sonar-scanner@v4
+      uses: warchant/setup-sonar-scanner@v3
 
     - name: Checkout source code
       uses: actions/checkout@v2
