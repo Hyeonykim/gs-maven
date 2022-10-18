@@ -24,19 +24,19 @@ jobs:
         mvn clean test jacoco:report
         ls -R
 
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST }}
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        #    - name: SonarQube Scan
+        #      uses: sonarsource/sonarqube-scan-action@master
+        #      env:
+        #        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        #        SONAR_HOST_URL: ${{ secrets.SONAR_HOST }}
+        #        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Run an analysis of the PR
       env:
         # to get access to secrets.SONAR_TOKEN, provide GITHUB_TOKEN
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       run: sonar-scanner
-        -Dsonar.host.url=${{ secrets.SONAR_URL }}
+        -Dsonar.host.url=${{ secrets.SONAR_HOST }}
         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         -Dsonar.projectKey=gs-maven-githug
         -Dsonar.pullrequest.key=${{ github.event.number }}
