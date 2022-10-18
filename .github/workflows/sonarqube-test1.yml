@@ -11,6 +11,9 @@ jobs:
     name: SonarQube Scan
     runs-on: linux
     steps:
+    - name: Setup sonarqube
+      uses: warchant/setup-sonar-scanner@v1
+
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
@@ -20,6 +23,7 @@ jobs:
         cd initial
         mvn clean test jacoco:report
         ls -R
+
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       env:
@@ -27,6 +31,20 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST }}
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
+    - name: Run an analysis of the PR
+      env:
+        # to get access to secrets.SONAR_TOKEN, provide GITHUB_TOKEN
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: sonar-scanner
+        -Dsonar.host.url=${{ secrets.SONAR_URL }}
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        -Dsonar.projectKey=gs-maven-githug
+        -Dsonar.pullrequest.key=${{ github.event.number }}
+        -Dsonar.pullrequest.branch=${{ github.HEAD_REF }}
+        -Dsonar.pullrequest.base=${{ github.BASE_REF }}
+        -Dsonar.pullrequest.github.repository=${{ github.repository }}
+
+        #-Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
     - name: Add coverage to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.3
